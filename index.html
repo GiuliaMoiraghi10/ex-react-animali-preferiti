@@ -6,6 +6,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>I miei animali Preferiti</title>
     <link rel="stylesheet" href="style.css">
+
+    <!-- Aggiungo script x creare componente react -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Creo componente react con babel in cui metto variabile con array di animali + componente ListaAnimali <details>  -->
+    <script type="text/babel">
+        const animals = ['Cane', 'Gatto', 'Orso', 'Orca', 'Cavallo', 'Panda', 'Koala', 'Lama']
+
+        // Creo componente ListaAnimali
+        function ListaAnimali() {
+            return (
+                <details>
+                    <summary>Scopri gli animali</summary>
+                    <h3>Animali</h3>
+                    <ul>
+                        {animals.map(animal => <li key={animal}>{animal}</li>)}
+                    </ul>
+                </details>
+            )
+        }
+    </script>
+
+    <!-- Renderizzo il componente ListaAnimali -->
+    <script type="text/babel">
+        const { createRoot } = ReactDOM
+
+        // Recupero elemento dove inserire il componente
+        const ListaAnimali = document.querySelector('.lista-animali')
+
+        // Inizializzo React dentro l'elemento recuperato
+        const root = createRoot(ListaAnimali)
+
+        // Monto e renderizzo il componente creato
+        root.render(<ListaAnimali />)
+    </script>
 </head>
 
 <body>
