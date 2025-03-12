@@ -15,18 +15,37 @@
     <!-- Creo componente react con babel in cui metto variabile con array di animali + componente ListaAnimali <details>  -->
     <script type="text/babel">
 
+        // importo useState tramite destructuring
+        const { useState } = React;
+
         // Creo componente ListaAnimali
         const ListaAnimali = () => {
-            const animals = ['Cane', 'Gatto', 'Orso', 'Orca', 'Cavallo', 'Panda', 'Koala', 'Lama']
+            const animalsChoices = ['Cane', 'Gatto', 'Orso', 'Orca', 'Cavallo', 'Panda', 'Koala', 'Lama']
+
+            // trasformo animals in useState
+            const [animals, setAnimals] = useState([]) // inizialmente array vuoto
+
+            // creo funzione onClick del button --> cerco indice randomico tra gli animali nell'array (stessa lunghezza)
+            const aggAnimale = () => {
+                const indexRandom = Math.floor(Math.random() * animalsChoices.length)
+                // trovo l'animale randomico
+                const animaleRandom = animalsChoices[indexRandom]
+                // prendo array corrente e aggiungo ad array (vuoto) un animale random
+                setAnimals(arrayCorrente => [...arrayCorrente, animaleRandom])
+            }
+
             return (
-                <details>
-                    <summary>Animali</summary>
-                    <ul>
-                        {animals.map((animal, i) => (
-                            <li key={i}>{animal}</li>
-                        ))}
-                    </ul>
-                </details>
+                <>
+                    <button onClick={aggAnimale}>Aggiungi Animale</button>
+                    <details>
+                        <summary>Animali</summary>
+                        <ul>
+                            {animals.map((animal, i) => (
+                                <li key={i}>{animal}</li>
+                            ))}
+                        </ul>
+                    </details>
+                </>
             )
         }
     </script>
@@ -35,7 +54,7 @@
     <script type="text/babel">
         const { createRoot } = ReactDOM;
 
-        // Recupero elemento dove inserire il componente
+        // Recupero elemento div dove inserire il componente
         const listaAnimali = document.querySelector('.lista-animali');
 
         // Inizializzo React dentro l'elemento recuperato
