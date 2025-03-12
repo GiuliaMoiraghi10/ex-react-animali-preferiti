@@ -16,43 +16,30 @@
     <script type="text/babel">
 
         // Creo componente ListaAnimali
-        function ListaAnimali() {
-
-            const { useState } = React
-
-            const [animals, setAnimals] = useState([]) // array inizialmente vuoto
-
-            const animalsChoice = ['Cane', 'Gatto', 'Orso', 'Orca', 'Cavallo', 'Panda', 'Koala', 'Lama']
-
-            // Aggiungo un animale
-            const aggiungoAnimale = () => {
-                setAnimals([...animals, animalsChoice[Math.floor(Math.random() * animalsChoice.length)]])
-            }
-
+        const ListaAnimali = () => {
+            const animals = ['Cane', 'Gatto', 'Orso', 'Orca', 'Cavallo', 'Panda', 'Koala', 'Lama']
             return (
-                <>
-                    <button onClick={aggiungoAnimale}>Aggiungi Animale</button>
-                    <details>
-                        <summary>Scopri gli animali</summary>
-                        <h3>Animali</h3>
-                        <ul>
-                            {animals.map(animal => <li key={animal}>{animal}</li>)}
-                        </ul>
-                    </details>
-                </>
+                <details>
+                    <summary>Animali</summary>
+                    <ul>
+                        {animals.map((animal, i) => (
+                            <li key={i}>{animal}</li>
+                        ))}
+                    </ul>
+                </details>
             )
         }
     </script>
 
     <!-- Renderizzo il componente ListaAnimali -->
     <script type="text/babel">
-        const { createRoot } = ReactDOM
+        const { createRoot } = ReactDOM;
 
         // Recupero elemento dove inserire il componente
-        const ListaAnimali = document.querySelector('.lista-animali')
+        const listaAnimali = document.querySelector('.lista-animali');
 
         // Inizializzo React dentro l'elemento recuperato
-        const root = createRoot(ListaAnimali)
+        const root = createRoot(listaAnimali);
 
         // Monto e renderizzo il componente creato
         root.render(<ListaAnimali />)
