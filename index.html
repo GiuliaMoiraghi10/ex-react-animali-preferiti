@@ -18,6 +18,29 @@
         // importo useState tramite destructuring
         const { useState } = React;
 
+        // Inserisco Modale
+        function Modal({
+            title,
+            content,
+            show = false,
+            onClose = () => { },
+            onConfirm = () => { }
+        }) {
+            return show && ReactDOM.createPortal(
+                <div className="modal-container">
+                    <div className="modal">
+                        <h2>{title}</h2>
+                        <p>{content}</p>
+                        <div>
+                            <button onClick={onClose}>Annulla</button>
+                            <button onClick={onConfirm}>Conferma</button>
+                        </div>
+                    </div>
+                </div>,
+                document.body
+            )
+        }
+
         // Creo componente ListaAnimali
         const ListaAnimali = () => {
             const animalsChoices = ['Cane', 'Gatto', 'Orso', 'Orca', 'Cavallo', 'Panda', 'Koala', 'Lama']
@@ -25,18 +48,30 @@
             // trasformo animals in useState
             const [animals, setAnimals] = useState([]) // inizialmente array vuoto
 
+            // creo variabile di stato per modale (inizialmente non si vede, quindi false)
+            const [showModale, setShowModale] = useState(false)
+
+            // creo variabile per input (serve una query per scrivere l'animale da aggiungere)
+            const [queryAnimal, setQueryAnimal] = useState('')
+
             // creo funzione onClick del button --> cerco indice randomico tra gli animali nell'array (stessa lunghezza)
             const aggAnimale = () => {
-                const indexRandom = Math.floor(Math.random() * animalsChoices.length)
-                // trovo l'animale randomico
-                const animaleRandom = animalsChoices[indexRandom]
-                // prendo array corrente e aggiungo ad array (vuoto) un animale random
-                setAnimals(arrayCorrente => [...arrayCorrente, animaleRandom])
+                // const indexRandom = Math.floor(Math.random() * animalsChoices.length)
+                // // trovo l'animale randomico
+                // const animaleRandom = animalsChoices[indexRandom]
+                // // prendo array corrente e aggiungo ad array (vuoto) un animale random
+                // setAnimals(arrayCorrente => [...arrayCorrente, animaleRandom])
+
+
+                if (!queryAnimal) return; // se la query è vuota, return (blocco il proseguimento della funzione)
+                setAnimals(arrayCorrente => [...arrayCorrente, queryAnimal]) // altrimenti, prendo l'array coorente con tutti gli el + queryAnimal
+                setQueryAnimal(''); // svuoto input
+                setShowModale(false) // chiudo la modale
             }
 
             return (
                 <>
-                    <button onClick={aggAnimale}>Aggiungi Animale</button>
+                    <button onClick={() => setShowModale(true)}>Aggiungi Animale</button>
                     <details>
                         <summary>Animali</summary>
                         <ul>
@@ -45,6 +80,19 @@
                             ))}
                         </ul>
                     </details>
+                    <Modal
+                        show={showModale}
+                        onClose={() => setShowModale(false)}
+                        onConfirm={aggAnimale}
+                        title='Aggiungi Animale'
+                        content={
+                            <input
+                                type='text'
+                                value={queryAnimal}
+                                onChange={evento => setQueryAnimal(evento.target.value)}
+                            />
+                        }
+                    />
                 </>
             )
         }
