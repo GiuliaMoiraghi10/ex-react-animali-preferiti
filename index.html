@@ -14,18 +14,32 @@
 
     <!-- Creo componente react con babel in cui metto variabile con array di animali + componente ListaAnimali <details>  -->
     <script type="text/babel">
-        const animals = ['Cane', 'Gatto', 'Orso', 'Orca', 'Cavallo', 'Panda', 'Koala', 'Lama']
 
         // Creo componente ListaAnimali
         function ListaAnimali() {
+
+            const { useState } = React
+
+            const [animals, setAnimals] = useState([]) // array inizialmente vuoto
+
+            const animalsChoice = ['Cane', 'Gatto', 'Orso', 'Orca', 'Cavallo', 'Panda', 'Koala', 'Lama']
+
+            // Aggiungo un animale
+            const aggiungoAnimale = () => {
+                setAnimals([...animals, animalsChoice[Math.floor(Math.random() * animalsChoice.length)]])
+            }
+
             return (
-                <details>
-                    <summary>Scopri gli animali</summary>
-                    <h3>Animali</h3>
-                    <ul>
-                        {animals.map(animal => <li key={animal}>{animal}</li>)}
-                    </ul>
-                </details>
+                <>
+                    <button onClick={aggiungoAnimale}>Aggiungi Animale</button>
+                    <details>
+                        <summary>Scopri gli animali</summary>
+                        <h3>Animali</h3>
+                        <ul>
+                            {animals.map(animal => <li key={animal}>{animal}</li>)}
+                        </ul>
+                    </details>
+                </>
             )
         }
     </script>
